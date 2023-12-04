@@ -1,0 +1,27 @@
+install.packages("tree")
+library(tree)
+library(ISLR2)
+library(readxl)
+data <- read_excel("C:/Users/haley/Downloads/clean_data.xlsx")
+subset <- read_excel("C:/Users/haley/Downloads/clean_data_subset.xlsx")
+
+#Simple EDA, see Python html for in depth EDA#
+dim(data)
+str(data)
+colnames(data)
+head(data)
+sum(is.na(data))
+summary(data)
+sapply(data, class)
+
+#Tree#
+mean(data$Rate_unemployment)
+mean(data$Rate_inflation)
+High <- factor(ifelse(data$Rate_unemployment <= 12, "No", "Yes"))
+high <- factor(ifelse(data$Rate_inflation <= 1.3, "No", "Yes"))
+data <- data.frame(data, High)
+data <- data.frame(data, high)
+tree.data1 <- tree(High ~ . - Rate_unemployment, data)
+tree.data2 <- tree(high ~ . - Rate_inflation, data)
+summary(tree.data1)
+summary(tree.data2)
